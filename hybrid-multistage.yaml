@@ -1,0 +1,34 @@
+#CICD Pipeline
+
+trigger:
+    branches:
+        include:
+        - main
+        - deploy/*
+
+        exclude:
+        - hotfix/*
+    batch: true
+
+stages:
+- stage: Build
+  jobs:
+  - job: CIJob
+    pool:
+      vmImage: 'ubuntu-latest'
+    displayName: 'Build Job'
+    steps:
+    - template: '/Build/build-pipeline.yml'
+      parameters:
+          buildConfig: 'debug'
+    - template: '/Build/build-pipeline.yml'
+      parameters:
+          buildConfig: 'release'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact Task'
+      inputs:
+        ArtifactName: 'depo'
+        PathtoPublish: '$(build.artifactsstaging)'
+        StoreAsTar: true
+
