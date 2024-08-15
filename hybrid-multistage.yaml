@@ -30,5 +30,5 @@ stages:
       inputs:
         ArtifactName: 'depo'
         PathtoPublish: '$(build.artifactsstaging)'
-        StoreAsTar: true
+        
 
