@@ -25,7 +25,7 @@ steps:
   displayName: 'Publish Task'
   inputs:
     command: publish
-    arguments: '-c ${{parameters.buildConfig}} -o $(build.artifactsstaging)/${{parameters.buildConfig}}'
+    arguments: '-c ${{parameters.buildConfig}} -o $(build.artifactsstaging)/MyBuilds/${{parameters.buildConfig}}'
     zipAfterPublish: true
 
 
