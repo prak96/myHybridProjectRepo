@@ -32,3 +32,17 @@ stages:
         PathtoPublish: '$(build.artifactsstaging)'
         
 
+- stage: AWS
+  jobs:
+  - job: deployToEBS
+    steps:
+    - task: DownloadBuildArtifacts@1
+      displayName: 'Download Build Artifact'
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'depo'
+        itemPattern: 'depo/MyBuilds/debug'
+        downloadPath: '$(system.artifactsstaging)'
+
+
