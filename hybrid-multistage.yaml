@@ -32,9 +32,24 @@ stages:
         PathtoPublish: '$(build.artifactsstaging)'
         
 
-- stage: AWS
+- stage: Checks
+  pool: server
+  dependsOn: Build
   jobs:
-  - job: deployToEBS
+  - job: Validation
+    steps:
+    - task: ManualValidation@1
+      inputs:
+        notifyUsers: |
+          310538-PA7@deccansoftstudents.onmicrosoft.com
+          1728233@kiit.ac.in
+        approvers: '1728233@kiit.ac.in'
+        instructions: '1728233@kiit.ac.in'
+
+- stage: AWS
+  dependsOn: Checks
+  jobs:
+  - job: ArtifactDownload
     steps:
     - task: DownloadBuildArtifacts@1
       displayName: 'Download Build Artifact'
@@ -44,5 +59,6 @@ stages:
         artifactName: 'depo'
         itemPattern: 'depo/MyBuilds/debug'
         downloadPath: '$(system.artifactsstaging)'
+    
 
 
