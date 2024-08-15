@@ -1,0 +1,33 @@
+# Starter pipeline
+# https://aka.ms/yaml
+
+
+parameters:
+  - name: buildConfig
+    default: 'debug'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'Restore task'
+  inputs:
+    command: restore
+    projects: '$(projectN)'
+    feedsToUse: select
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build task'
+  inputs:
+    command: build
+    projects: $(projectN)
+    arguments: '-c ${{parameters.buildConfig}}'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Task'
+  inputs:
+    command: publish
+    arguments: '-c ${{parameters.buildConfig}} -o $(build.artifactsstaging)'
+    zipAfterPublish: true
+
+
+
+
