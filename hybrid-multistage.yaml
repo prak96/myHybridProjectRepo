@@ -32,24 +32,25 @@ stages:
         PathtoPublish: '$(build.artifactsstaging)'
         
 
-- stage: Checks
-  dependsOn: Build
-  pool: server
-  jobs:
-  - job: Validation
-    steps:
-    - task: ManualValidation@1
-      inputs:
-        notifyUsers: |
-          310538-PA7@deccansoftstudents.onmicrosoft.com
-          1728233@kiit.ac.in
-        instructions: '1728233@kiit.ac.in'
+# - stage: Checks
+#   dependsOn: Build
+#   pool: server
+#   jobs:
+#   - job: Validation
+#     steps:
+#     - task: ManualValidation@1
+#       inputs:
+#         notifyUsers: |
+#           310538-PA7@deccansoftstudents.onmicrosoft.com
+#           1728233@kiit.ac.in
+#         instructions: '1728233@kiit.ac.in'
 
 - stage: Azure
-  dependsOn: Checks
+  #dependsOn: Checks
+  dependsOn: Build
   jobs:
   - deployment: VM
-    dependsOn: WebApp
+    #dependsOn: WebApp
     environment:
       name: Hybrid-Pools
       resourceType: VirtualMachine
@@ -92,28 +93,28 @@ stages:
           - task: IISWebAppDeploymentOnMachineGroup@0
             inputs:
               WebSiteName: 'Default Web Site'
-              Package: '$(pipeline.workspace)\**\*.zip'
+              Package: '$(System.ArtifactsDirectory)/**/release/*.zip'
               TakeAppOfflineFlag: true
               XmlVariableSubstitution: true
 
 
-  - job: WebApp
-    steps:
-    - task: DownloadBuildArtifacts@1
-      displayName: 'download artifact for webapp'
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'depo'
-        downloadPath: '$(System.ArtifactsDirectory)/DownloadedFiles'
+  # - job: WebApp
+  #   steps:
+  #   - task: DownloadBuildArtifacts@1
+  #     displayName: 'download artifact for webapp'
+  #     inputs:
+  #       buildType: 'current'
+  #       downloadType: 'single'
+  #       artifactName: 'depo'
+  #       downloadPath: '$(System.ArtifactsDirectory)/DownloadedFiles'
 
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'Lifeline233-SP'
-        appType: 'webApp'
-        WebAppName: 'hybrid-apphjdmbulew44re'
-        packageForLinux: '$(System.ArtifactsDirectory)/**/release/*.zip'
+  #   - task: AzureRmWebAppDeployment@4
+  #     inputs:
+  #       ConnectionType: 'AzureRM'
+  #       azureSubscription: 'Lifeline233-SP'
+  #       appType: 'webApp'
+  #       WebAppName: 'hybrid-apphjdmbulew44re'
+  #       packageForLinux: '$(System.ArtifactsDirectory)/**/release/*.zip'
 
 
 # - stage: AWS
