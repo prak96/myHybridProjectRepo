@@ -93,7 +93,7 @@ stages:
           - task: IISWebAppDeploymentOnMachineGroup@0
             inputs:
               WebSiteName: 'Default Web Site'
-              Package: '$(System.ArtifactsDirectory)/**/release/*.zip'
+              Package: '$(pipeline.workspace)/**/release/*.zip'
               TakeAppOfflineFlag: true
               XmlVariableSubstitution: true
 
