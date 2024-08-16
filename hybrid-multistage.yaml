@@ -50,6 +50,7 @@ stages:
   dependsOn: Checks
   jobs:
   - deployment: VM
+    dependsOn: WebApp
     environment:
       name: Hybrid-Pools
       resourceType: VirtualMachine
@@ -98,15 +99,14 @@ stages:
 
 
   - job: WebApp
-    dependsOn: VM
     steps:
     - task: DownloadBuildArtifacts@1
-      displayName: 'downlaod artifact for webapp'
+      displayName: 'download artifact for webapp'
       inputs:
         buildType: 'current'
         downloadType: 'single'
         artifactName: 'depo'
-        downloadPath: '$(System.ArtifactsDirectory)'
+        downloadPath: '$(System.ArtifactsDirectory)/DownloadedFiles'
 
     - task: AzureRmWebAppDeployment@4
       inputs:
@@ -114,12 +114,7 @@ stages:
         azureSubscription: 'Lifeline233-SP'
         appType: 'webApp'
         WebAppName: 'hybrid-apphjdmbulew44re'
-        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-
-    
-      
-
-
+        packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
 
 
 # - stage: AWS
