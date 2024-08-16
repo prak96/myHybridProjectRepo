@@ -113,7 +113,7 @@ stages:
         azureSubscription: 'Lifeline233-SP'
         appType: 'webApp'
         WebAppName: 'hybrid-apphjdmbulew44re'
-        packageForLinux: '$(System.ArtifactsDirectory)/MyBuilds/release/*.zip'
+        packageForLinux: '$(System.ArtifactsDirectory)/DownloadedFiles/MyBuilds/release/*.zip'
 
 
 # - stage: AWS
