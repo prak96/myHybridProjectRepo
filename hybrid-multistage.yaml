@@ -43,7 +43,6 @@ stages:
         notifyUsers: |
           310538-PA7@deccansoftstudents.onmicrosoft.com
           1728233@kiit.ac.in
-        approvers: '1728233@kiit.ac.in'
         instructions: '1728233@kiit.ac.in'
 
 - stage: Azure
