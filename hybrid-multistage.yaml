@@ -33,8 +33,8 @@ stages:
         
 
 - stage: Checks
-  pool: server
   dependsOn: Build
+  pool: server
   jobs:
   - job: Validation
     steps:
@@ -46,19 +46,95 @@ stages:
         approvers: '1728233@kiit.ac.in'
         instructions: '1728233@kiit.ac.in'
 
-- stage: AWS
+- stage: Azure
   dependsOn: Checks
   jobs:
-  - job: ArtifactDownload
+  - deployment: VM
+    environment:
+      name: Hybrid-Pools
+      resourceType: VirtualMachine
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: IISWebAppManagementOnMachineGroup@0
+            inputs:
+              EnableIIS: true
+              IISDeploymentType: 'IISWebsite'
+              ActionIISWebsite: 'CreateOrUpdateWebsite'
+              WebsiteName: 'Default Web Site'
+              WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+              WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+              AddBinding: true
+              ParentWebsiteNameForApplication: 'Default Web Site'
+              ParentWebsiteNameForVD: 'Default Web Site'
+              Bindings: '{
+                "bindings":[
+                  {
+                    "protocol": "http",
+                    "ipAddress": "All Unassigned",
+                    "port": "80",
+                    "hostname": "Default Web Site",
+                    "sslThumbprint": "",
+                    "sniFlag": false
+                  }
+                ]
+              }'
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: |
+                Invoke-WebRequest "https://download.visualstudio.microsoft.com/download/pr/7d169ca8-2755-4870-b45c-bfc651013a77/46639ef8e327f00ab1a941288dd28abe/dotnet-hosting-8.0.7-win.exe" -OutFile $env:temp\DotNetCore.WindowsHosting.exe
+                Start-Process $env:temp\DotNetCore.WindowsHosting.exe -ArgumentList '/quiet' -Wait
+              errorActionPreference: 'silentlyContinue'
+              verbosePreference: 'continue'
+
+          - task: IISWebAppDeploymentOnMachineGroup@0
+            inputs:
+              WebSiteName: 'Default Web Site'
+              Package: '$(pipeline.workspace)\**\*.zip'
+              TakeAppOfflineFlag: true
+              XmlVariableSubstitution: true
+
+
+  - job: WebApp
+    dependsOn: VM
     steps:
     - task: DownloadBuildArtifacts@1
-      displayName: 'Download Build Artifact'
+      displayName: 'downlaod artifact for webapp'
       inputs:
         buildType: 'current'
         downloadType: 'single'
         artifactName: 'depo'
-        itemPattern: 'depo/MyBuilds/debug'
-        downloadPath: '$(system.artifactsstaging)'
+        downloadPath: '$(System.ArtifactsDirectory)'
+
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Lifeline233-SP'
+        appType: 'webApp'
+        WebAppName: 'hybrid-apphjdmbulew44re'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+
+    
+      
+
+
+
+
+# - stage: AWS
+#   dependsOn: Checks
+#   jobs:
+#   - job: ArtifactDownload
+#     steps:
+#     - task: DownloadBuildArtifacts@1
+#       displayName: 'Download Build Artifact'
+#       inputs:
+#         buildType: 'current'
+#         downloadType: 'single'
+#         artifactName: 'depo'
+#         itemPattern: 'depo/MyBuilds/debug'
+#         downloadPath: '$(system.artifactsstaging)'
     
 
 
