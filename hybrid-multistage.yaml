@@ -1,5 +1,5 @@
-#CICD Pipeline
-#GitFlow Pipeline
+
+#GitFlow CICD Pipeline
 trigger:
     branches:
         include:
