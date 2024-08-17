@@ -55,7 +55,7 @@ stages:
   condition: eq(variables['Build.SourceBranch'],'refs/heads/deploy/azure')    #Activated for 'deploy/azure' branch only 
   jobs:
   - deployment: deployToAzureVM
-    dependsOn: AzureWebApp
+    #dependsOn: AzureWebApp
     environment:                        #Deployment Job to Azure VM in 'Hybrid-Pools'
       name: Hybrid-Pools
       resourceType: VirtualMachine
@@ -64,13 +64,13 @@ stages:
       runOnce:
         deploy:
           steps:
-               
-          # - task: DownloadPipelineArtifact@2                ##Explicit Artifact Download for Azure VM
-          #   displayName: 'download artifact for AzureVM'
-          #   inputs:
-          #     buildType: 'current'
-          #     artifactName: 'depo'
-          #     targetPath: '$(Pipeline.Workspace)/downloadedFiles'
+            - checkout: 'none'    #Diabled Artifact download in Environment
+            - task: DownloadPipelineArtifact@2                ##Explicit Artifact Download for Azure VM
+              displayName: 'download artifact for AzureVM'
+              inputs:
+                buildType: 'current'
+                artifactName: 'depo'
+                targetPath: '$(Pipeline.Workspace)/downloadedFiles'
           # - task: IISWebAppManagementOnMachineGroup@0         #IIS Install
           #   displayName: 'IIS installation task'
           #   inputs:
@@ -105,31 +105,30 @@ stages:
           #     errorActionPreference: 'silentlyContinue'
           #     verbosePreference: 'continue'
 
-          - task: IISWebAppDeploymentOnMachineGroup@0     ##Site Deploy to IIS using Artifact downloaded by Environment
-            displayName: 'Deploy Website in IIS server'
-            inputs:
-              WebSiteName: 'Default Web Site'
-              Package: '$(pipeline.workspace)/**/release/*.zip'
-              TakeAppOfflineFlag: true
-              XmlVariableSubstitution: true
+            - task: IISWebAppDeploymentOnMachineGroup@0     ##Site Deploy to IIS using Artifact downloaded by Environment
+              displayName: 'Deploy Website in IIS server'
+              inputs:
+                WebSiteName: 'Default Web Site'
+                Package: '$(pipeline.workspace)/**/release/*.zip'
+                XmlVariableSubstitution: true
 
 
-  - job: AzureWebApp
-    steps:
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        buildType: 'current'
-        artifactName: 'depo'
-        targetPath: '$(Pipeline.Workspace)'
+  # - job: AzureWebApp
+  #   steps:
+  #   - task: DownloadPipelineArtifact@2
+  #     inputs:
+  #       buildType: 'current'
+  #       artifactName: 'depo'
+  #       targetPath: '$(Pipeline.Workspace)'
 
-    - task: AzureRmWebAppDeployment@4                           ##Site Deploy to Azure WebApp
-      displayName: 'Hosting Website to webapp from Artifact'
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'Lifeline233-SP'
-        appType: 'webApp'
-        WebAppName: 'hybrid-appwxgv3fplmjtiq'
-        packageForLinux: '$(Pipeline.Workspace)/**/release/*.zip'
+  #   - task: AzureRmWebAppDeployment@4                           ##Site Deploy to Azure WebApp
+  #     displayName: 'Hosting Website to webapp from Artifact'
+  #     inputs:
+  #       ConnectionType: 'AzureRM'
+  #       azureSubscription: 'Lifeline233-SP'
+  #       appType: 'webApp'
+  #       WebAppName: 'hybrid-appwxgv3fplmjtiq'
+  #       packageForLinux: '$(Pipeline.Workspace)/**/release/*.zip'
 
 
 - stage: AWS
