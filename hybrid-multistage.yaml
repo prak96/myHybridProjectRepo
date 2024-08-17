@@ -221,7 +221,7 @@ stages:
                     "protocol": "http",
                     "ipAddress": "All Unassigned",
                     "port": "80",
-                    "hostname": "Default Web Site",
+                    "hostname": "",
                     "sslThumbprint": "",
                     "sniFlag": false
                   }
