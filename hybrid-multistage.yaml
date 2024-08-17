@@ -116,13 +116,11 @@ stages:
 
   - job: AzureWebApp
     steps:
-    - task: DownloadBuildArtifacts@1              ##Explicit Artifact Download for Azure WebApp
-      displayName: 'download artifact for webapp'
+    - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'
-        downloadType: 'single'
         artifactName: 'depo'
-        downloadPath: '$(System.ArtifactsDirectory)/DownloadedFiles'
+        targetPath: '$(Pipeline.Workspace)'
 
     - task: AzureRmWebAppDeployment@4                           ##Site Deploy to Azure WebApp
       displayName: 'Hosting Website to webapp from Artifact'
@@ -131,7 +129,7 @@ stages:
         azureSubscription: 'Lifeline233-SP'
         appType: 'webApp'
         WebAppName: 'hybrid-appwxgv3fplmjtiq'
-        packageForLinux: '$(System.ArtifactsDirectory)/**/release/*.zip'
+        packageForLinux: '$(Pipeline.Workspace)/**/release/*.zip'
 
 
 - stage: AWS
