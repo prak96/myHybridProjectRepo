@@ -194,7 +194,7 @@ stages:
     environment:
       name: Hybrid-Pools
       resourceType: VirtualMachine
-      tags: onprem-adc              #Explicit tagName provided for site deployment to particular deploy agent among others
+      tags: onprem-dc              #Explicit tagName provided for site deployment to particular deploy agent among others
     strategy:
       runOnce:
         deploy:
