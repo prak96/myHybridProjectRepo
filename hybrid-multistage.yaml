@@ -109,7 +109,7 @@ stages:
               displayName: 'Deploy Website in IIS server'
               inputs:
                 WebSiteName: 'Default Web Site'
-                Package: '$(pipeline.workspace)/**/release/*.zip'
+                Package: '$(pipeline.workspace)/downloadedFiles/**/release/*.zip'
                 XmlVariableSubstitution: true
 
 
