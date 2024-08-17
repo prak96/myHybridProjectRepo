@@ -95,15 +95,14 @@ stages:
           #         }
           #       ]
           #     }'
-          # - task: PowerShell@2                #Download & Install ASP.NET using pwsh script
-          #   displayName: 'ASP.NET Script task'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       Invoke-WebRequest "https://download.visualstudio.microsoft.com/download/pr/7d169ca8-2755-4870-b45c-bfc651013a77/46639ef8e327f00ab1a941288dd28abe/dotnet-hosting-8.0.7-win.exe" -OutFile $env:temp\DotNetCore.WindowsHosting.exe
-          #       Start-Process $env:temp\DotNetCore.WindowsHosting.exe -ArgumentList '/quiet' -Wait
-          #     errorActionPreference: 'silentlyContinue'
-          #     verbosePreference: 'continue'
+            - task: PowerShell@2                #Download & Install ASP.NET using pwsh script
+              displayName: 'ASP.NET Script task'
+              inputs:
+                targetType: 'inline'
+                script: |
+                  Invoke-WebRequest "https://download.visualstudio.microsoft.com/download/pr/7d169ca8-2755-4870-b45c-bfc651013a77/46639ef8e327f00ab1a941288dd28abe/dotnet-hosting-8.0.7-win.exe" -OutFile $env:temp\DotNetCore.WindowsHosting.exe
+                  Start-Process $env:temp\DotNetCore.WindowsHosting.exe -ArgumentList '/quiet' -Wait
+                errorActionPreference: 'silentlyContinue'
 
             - task: IISWebAppDeploymentOnMachineGroup@0     ##Site Deploy to IIS using Artifact downloaded by Environment
               displayName: 'Deploy Website in IIS server'
@@ -169,15 +168,15 @@ stages:
           #         }
           #       ]
           #     }'
-          # - task: PowerShell@2                #Download & Install ASP.NET using pwsh script
-          #   displayName: 'ASP.NET Script task'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       Invoke-WebRequest "https://download.visualstudio.microsoft.com/download/pr/7d169ca8-2755-4870-b45c-bfc651013a77/46639ef8e327f00ab1a941288dd28abe/dotnet-hosting-8.0.7-win.exe" -OutFile $env:temp\DotNetCore.WindowsHosting.exe
-          #       Start-Process $env:temp\DotNetCore.WindowsHosting.exe -ArgumentList '/quiet' -Wait
-          #     errorActionPreference: 'silentlyContinue'
-          #     verbosePreference: 'continue'
+          - task: PowerShell@2                #Download & Install ASP.NET using pwsh script
+            displayName: 'ASP.NET Script task'
+            inputs:
+              targetType: 'inline'
+              script: |
+                Invoke-WebRequest "https://download.visualstudio.microsoft.com/download/pr/7d169ca8-2755-4870-b45c-bfc651013a77/46639ef8e327f00ab1a941288dd28abe/dotnet-hosting-8.0.7-win.exe" -OutFile $env:temp\DotNetCore.WindowsHosting.exe
+                Start-Process $env:temp\DotNetCore.WindowsHosting.exe -ArgumentList '/quiet' -Wait
+              errorActionPreference: 'silentlyContinue'
+      
 
           - task: IISWebAppDeploymentOnMachineGroup@0     ##Site Deploy to IIS using Artifact downloaded by Environment
             displayName: 'Deploy Website in IIS server'
@@ -225,15 +224,15 @@ stages:
           #         }
           #       ]
           #     }'
-          # - task: PowerShell@2                #Download & Install ASP.NET using pwsh script
-          #   displayName: 'ASP.NET Script task'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       Invoke-WebRequest "https://download.visualstudio.microsoft.com/download/pr/7d169ca8-2755-4870-b45c-bfc651013a77/46639ef8e327f00ab1a941288dd28abe/dotnet-hosting-8.0.7-win.exe" -OutFile $env:temp\DotNetCore.WindowsHosting.exe
-          #       Start-Process $env:temp\DotNetCore.WindowsHosting.exe -ArgumentList '/quiet' -Wait
-          #     errorActionPreference: 'silentlyContinue'
-          #     verbosePreference: 'continue'
+          - task: PowerShell@2                #Download & Install ASP.NET using pwsh script
+            displayName: 'ASP.NET Script task'
+            inputs:
+              targetType: 'inline'
+              script: |
+                Invoke-WebRequest "https://download.visualstudio.microsoft.com/download/pr/7d169ca8-2755-4870-b45c-bfc651013a77/46639ef8e327f00ab1a941288dd28abe/dotnet-hosting-8.0.7-win.exe" -OutFile $env:temp\DotNetCore.WindowsHosting.exe
+                Start-Process $env:temp\DotNetCore.WindowsHosting.exe -ArgumentList '/quiet' -Wait
+              errorActionPreference: 'silentlyContinue'
+          
 
           - task: IISWebAppDeploymentOnMachineGroup@0     ##Site Deploy to IIS using Artifact downloaded by Environment
             displayName: 'Deploy Website in IIS server'
