@@ -71,30 +71,30 @@ stages:
                 buildType: 'current'
                 artifactName: 'depo'
                 targetPath: '$(Pipeline.Workspace)/downloadedFiles'
-          # - task: IISWebAppManagementOnMachineGroup@0         #IIS Install
-          #   displayName: 'IIS installation task'
-          #   inputs:
-          #     EnableIIS: true
-          #     IISDeploymentType: 'IISWebsite'
-          #     ActionIISWebsite: 'CreateOrUpdateWebsite'
-          #     WebsiteName: 'Default Web Site'
-          #     WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
-          #     WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
-          #     AddBinding: true
-          #     ParentWebsiteNameForApplication: 'Default Web Site'
-          #     ParentWebsiteNameForVD: 'Default Web Site'
-          #     Bindings: '{
-          #       "bindings":[
-          #         {
-          #           "protocol": "http",
-          #           "ipAddress": "All Unassigned",
-          #           "port": "80",
-          #           "hostname": "",
-          #           "sslThumbprint": "",
-          #           "sniFlag": false
-          #         }
-          #       ]
-          #     }'
+            - task: IISWebAppManagementOnMachineGroup@0         #IIS Install
+              displayName: 'IIS installation task'
+              inputs:
+                EnableIIS: true
+                IISDeploymentType: 'IISWebsite'
+                ActionIISWebsite: 'CreateOrUpdateWebsite'
+                WebsiteName: 'Default Web Site'
+                WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                AddBinding: true
+                ParentWebsiteNameForApplication: 'Default Web Site'
+                ParentWebsiteNameForVD: 'Default Web Site'
+                Bindings: '{
+                  "bindings":[
+                    {
+                      "protocol": "http",
+                      "ipAddress": "All Unassigned",
+                      "port": "80",
+                      "hostname": "",
+                      "sslThumbprint": "",
+                      "sniFlag": false
+                    }
+                  ]
+                }'
             - task: PowerShell@2                #Download & Install ASP.NET using pwsh script
               displayName: 'ASP.NET Script task'
               inputs:
@@ -112,22 +112,22 @@ stages:
                 XmlVariableSubstitution: true
 
 
-  # - job: AzureWebApp
-  #   steps:
-  #   - task: DownloadPipelineArtifact@2
-  #     inputs:
-  #       buildType: 'current'
-  #       artifactName: 'depo'
-  #       targetPath: '$(Pipeline.Workspace)'
+  - job: AzureWebApp
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'depo'
+        targetPath: '$(Pipeline.Workspace)'
 
-  #   - task: AzureRmWebAppDeployment@4                           ##Site Deploy to Azure WebApp
-  #     displayName: 'Hosting Website to webapp from Artifact'
-  #     inputs:
-  #       ConnectionType: 'AzureRM'
-  #       azureSubscription: 'Lifeline233-SP'
-  #       appType: 'webApp'
-  #       WebAppName: 'hybrid-appwxgv3fplmjtiq'
-  #       packageForLinux: '$(Pipeline.Workspace)/**/release/*.zip'
+    - task: AzureRmWebAppDeployment@4                           ##Site Deploy to Azure WebApp
+      displayName: 'Hosting Website to webapp from Artifact'
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Lifeline233-SP'
+        appType: 'webApp'
+        WebAppName: 'hybrid-appwxgv3fplmjtiq'
+        packageForLinux: '$(Pipeline.Workspace)/**/release/*.zip'
 
 
 - stage: AWS
@@ -144,30 +144,30 @@ stages:
         deploy:
           steps:
           - checkout: 'none'
-          # - task: IISWebAppManagementOnMachineGroup@0         #IIS Install
-          #   displayName: 'IIS installation task'
-          #   inputs:
-          #     EnableIIS: true
-          #     IISDeploymentType: 'IISWebsite'
-          #     ActionIISWebsite: 'CreateOrUpdateWebsite'
-          #     WebsiteName: 'Default Web Site'
-          #     WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
-          #     WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
-          #     AddBinding: true
-          #     ParentWebsiteNameForApplication: 'Default Web Site'
-          #     ParentWebsiteNameForVD: 'Default Web Site'
-          #     Bindings: '{
-          #       "bindings":[
-          #         {
-          #           "protocol": "http",
-          #           "ipAddress": "All Unassigned",
-          #           "port": "80",
-          #           "hostname": "",
-          #           "sslThumbprint": "",
-          #           "sniFlag": false
-          #         }
-          #       ]
-          #     }'
+          - task: IISWebAppManagementOnMachineGroup@0         #IIS Install
+            displayName: 'IIS installation task'
+            inputs:
+                EnableIIS: true
+                IISDeploymentType: 'IISWebsite'
+                ActionIISWebsite: 'CreateOrUpdateWebsite'
+                WebsiteName: 'Default Web Site'
+                WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                AddBinding: true
+                ParentWebsiteNameForApplication: 'Default Web Site'
+                ParentWebsiteNameForVD: 'Default Web Site'
+                Bindings: '{
+                  "bindings":[
+                    {
+                      "protocol": "http",
+                      "ipAddress": "All Unassigned",
+                      "port": "80",
+                      "hostname": "",
+                      "sslThumbprint": "",
+                      "sniFlag": false
+                    }
+                  ]
+                }'
           - task: PowerShell@2                #Download & Install ASP.NET using pwsh script
             displayName: 'ASP.NET Script task'
             inputs:
@@ -200,30 +200,30 @@ stages:
         deploy:
          steps:
           - checkout: 'none'
-          # - task: IISWebAppManagementOnMachineGroup@0         #IIS Install
-          #   displayName: 'IIS installation task'
-          #   inputs:
-          #     EnableIIS: true
-          #     IISDeploymentType: 'IISWebsite'
-          #     ActionIISWebsite: 'CreateOrUpdateWebsite'
-          #     WebsiteName: 'Default Web Site'
-          #     WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
-          #     WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
-          #     AddBinding: true
-          #     ParentWebsiteNameForApplication: 'Default Web Site'
-          #     ParentWebsiteNameForVD: 'Default Web Site'
-          #     Bindings: '{
-          #       "bindings":[
-          #         {
-          #           "protocol": "http",
-          #           "ipAddress": "All Unassigned",
-          #           "port": "80",
-          #           "hostname": "",
-          #           "sslThumbprint": "",
-          #           "sniFlag": false
-          #         }
-          #       ]
-          #     }'
+          - task: IISWebAppManagementOnMachineGroup@0         #IIS Install
+            displayName: 'IIS installation task'
+            inputs:
+              EnableIIS: true
+              IISDeploymentType: 'IISWebsite'
+              ActionIISWebsite: 'CreateOrUpdateWebsite'
+              WebsiteName: 'Default Web Site'
+              WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
+              WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+              AddBinding: true
+              ParentWebsiteNameForApplication: 'Default Web Site'
+              ParentWebsiteNameForVD: 'Default Web Site'
+              Bindings: '{
+                "bindings":[
+                  {
+                    "protocol": "http",
+                    "ipAddress": "All Unassigned",
+                    "port": "80",
+                    "hostname": "",
+                    "sslThumbprint": "",
+                    "sniFlag": false
+                  }
+                ]
+              }'
           - task: PowerShell@2                #Download & Install ASP.NET using pwsh script
             displayName: 'ASP.NET Script task'
             inputs:
